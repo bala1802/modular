@@ -68,7 +68,7 @@ class CustomResNet01(nn.Module):
         x = self.maxpool1(x)
 
         residualBlock1 = self.resBlock1(x)
-        x += residualBlock1
+        x = x + residualBlock1
 
         x = self.layer2(x)
         x = self.maxpool2(x)
@@ -76,7 +76,7 @@ class CustomResNet01(nn.Module):
         x = self.layer3(x)
         x = self.maxpool3(x)
         residualBlock2 = self.resBlock2(x)
-        x += residualBlock2
+        x = x + residualBlock2
 
         x = self.avgpool(x)
         x = x.reshape(x.shape[0], -1)

@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch_lr_finder import LRFinder
+from torch.optim.lr_scheduler import OneCycleLR
 
 SEED = 1
 
@@ -46,3 +47,16 @@ def get_device():
     use_cuda = torch.cuda.is_available()
     device = torch.device("cuda" if use_cuda else "cpu")
     return device
+
+def construct_scheduler(optimizer, data_loader, epochs, maximum_learning_rate):
+    scheduler = OneCycleLR(
+        optimizer,
+        max_lr=maximum_learning_rate,
+        steps_per_epoch=len(data_loader),
+        epochs=epochs,
+        pct_start=5/epochs,
+        div_factor=100,
+        three_phase=False,
+        final_div_factor=100,
+        anneal_strategy='linear'
+    )

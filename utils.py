@@ -3,13 +3,25 @@ import torch.nn as nn
 import torch.optim as optim
 from torch_lr_finder import LRFinder
 
+SEED = 1
+
+# CUDA?
+cuda = torch.cuda.is_available()
+print("CUDA Available?", cuda)
+
+# For reproducibility
+torch.manual_seed(SEED)
+
+if cuda:
+    torch.cuda.manual_seed(SEED)
+
 def construct_train_loader(train):
-    dataloader_args = dict(shuffle=True, batch_size=64)
+    dataloader_args = dict(shuffle=True, batch_size=512, num_workers=0, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
     train_loader = torch.utils.data.DataLoader(train, **dataloader_args)
     return train_loader
 
 def construct_test_loader(test):
-    dataloader_args = dict(shuffle=True, batch_size=64)
+    dataloader_args = dict(shuffle=True, batch_size=512, num_workers=0, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
     test_loader = torch.utils.data.DataLoader(test, **dataloader_args)
     return test_loader
 

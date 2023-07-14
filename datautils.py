@@ -7,6 +7,8 @@ from torchvision import datasets
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
+import numpy as np
+
 SEED = 1
 
 # CUDA?

@@ -15,17 +15,7 @@ torch.manual_seed(SEED)
 
 if cuda:
     torch.cuda.manual_seed(SEED)
-
-def construct_train_loader(train):
-    dataloader_args = dict(shuffle=True, batch_size=512, num_workers=0, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
-    train_loader = torch.utils.data.DataLoader(train, **dataloader_args)
-    return train_loader
-
-def construct_test_loader(test):
-    dataloader_args = dict(shuffle=True, batch_size=512, num_workers=0, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
-    test_loader = torch.utils.data.DataLoader(test, **dataloader_args)
-    return test_loader
-
+    
 def construct_optimizer(model, learning_rate, weight_decay):
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, 
                            weight_decay=weight_decay)

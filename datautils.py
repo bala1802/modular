@@ -4,6 +4,9 @@ import torch.nn as nn
 import torchvision
 from torchvision import datasets
 
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
+
 SEED = 1
 
 # CUDA?
@@ -39,3 +42,6 @@ def load_transform_object(mode):
 def construct_loader(data):
     dataloader_args = dict(shuffle=True, batch_size=512, num_workers=0, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
     return torch.utils.data.DataLoader(data, **dataloader_args)
+    
+def load_class_names():
+    return ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']

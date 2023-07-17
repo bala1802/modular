@@ -46,28 +46,14 @@ def get_transforms(mode):
     stds = params["transform_stds"]
 
     #REMOVE THIS
-    # if mode == 'train':
-    #     return A.Compose([
-    #                         A.Normalize(mean=means, std=stds, always_apply=True),
-    #                         A.PadIfNeeded(min_height=40, min_width=40, always_apply=True),
-    #                         A.RandomCrop(height=32, width=32, always_apply=True),
-    #                         A.HorizontalFlip(),
-    #                         A.CoarseDropout(max_holes=1, max_height=8, max_width=8, min_holes=1, min_height=8, min_width=8, fill_value=means),
-    #                         ToTensorV2(),
-    #                     ])
-    # else:
-    #     return A.Compose([
-    #                         A.Normalize(mean=means, std=stds, always_apply=True),
-    #                         ToTensorV2(),
-    #                     ])
-    
     if mode == 'train':
         return A.Compose([
                             A.Normalize(mean=means, std=stds, always_apply=True),
                             A.PadIfNeeded(min_height=36, min_width=36, border_mode=F.cv2.BORDER_REFLECT),
                             A.RandomCrop(height=32, width=32),
                             A.HorizontalFlip(p=0.5),
-                            A.CoarseDropout(max_holes=1, max_height=8, max_width=8, min_holes=1, min_height=8, min_width=8, fill_value=means),
+                            A.CoarseDropout(max_holes=1, max_height=8, max_width=8, p=0.5, fill_value=means),
+                            #A.CoarseDropout(max_holes=1, max_height=8, max_width=8, min_holes=1, min_height=8, min_width=8, fill_value=means),
                             ToTensorV2(),
                         ])
     else:

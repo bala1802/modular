@@ -3,7 +3,7 @@ from tqdm import tqdm
 import torch.nn as nn
 import torch.nn.functional as F
 
-def train(model, device, train_loader, optimizer, scheduler, epoch):
+def train(model, device, train_loader, optimizer, scheduler, epoch, loss_function):
     model.train()
     pbar = tqdm(train_loader)
     correct = 0
@@ -15,7 +15,8 @@ def train(model, device, train_loader, optimizer, scheduler, epoch):
 
         y_pred = model(data)
 
-        loss = F.nll_loss(y_pred, target)
+        # loss = F.nll_loss(y_pred, target)
+        loss = loss_function(y_pred, target)
 
         loss.backward()
         optimizer.step()

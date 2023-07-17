@@ -45,9 +45,9 @@ def construct_scheduler(optimizer, data_loader, epochs, maximum_learning_rate):
         steps_per_epoch=len(data_loader),
         epochs=epochs,
         pct_start=5/epochs,
-        div_factor=25,
+        div_factor=50,
         three_phase=False,
-        final_div_factor=25,
+        final_div_factor=50,
         anneal_strategy='linear'
     )
     return scheduler

@@ -47,7 +47,7 @@ def construct_scheduler(optimizer, data_loader, epochs, maximum_learning_rate):
         pct_start=5/epochs,
         div_factor=25,
         three_phase=False,
-        final_div_factor=10000.0,
+        final_div_factor=25,
         anneal_strategy='linear'
     )
     return scheduler

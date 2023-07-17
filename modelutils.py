@@ -4,6 +4,9 @@ import torch.optim as optim
 from torch_lr_finder import LRFinder
 from torch.optim.lr_scheduler import OneCycleLR
 
+import yaml
+from yaml.loader import SafeLoader
+
 SEED = 1
 
 # CUDA?
@@ -15,7 +18,10 @@ torch.manual_seed(SEED)
 
 if cuda:
     torch.cuda.manual_seed(SEED)
-    
+
+with open("modular/params.yaml") as f:
+    params = yaml.load(f, Loader=SafeLoader)
+
 def construct_optimizer(model, learning_rate, weight_decay):
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, 
                            weight_decay=weight_decay)
@@ -45,9 +51,9 @@ def construct_scheduler(optimizer, data_loader, epochs, maximum_learning_rate):
         steps_per_epoch=len(data_loader),
         epochs=epochs,
         pct_start=5/epochs,
-        div_factor=1,
+        div_factor=params["one_cycle_lr_div_factor"],
         three_phase=False,
-        final_div_factor=25,
-        anneal_strategy='linear'
+        final_div_factor=params["one_cycle_lr_final_div_factor"],
+        anneal_strategy=params["one_cycle_lr_anneal_strategy"]
     )
     return scheduler

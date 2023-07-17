@@ -1,2 +1,6 @@
 transform_means: [0.4914, 0.4822, 0.4465]
 transform_stds: [0.2470, 0.2435, 0.2616]
+
+one_cycle_lr_div_factor: 1
+one_cycle_lr_final_div_factor: 25
+one_cycle_lr_anneal_strategy: "linear"

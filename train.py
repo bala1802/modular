@@ -24,8 +24,6 @@ def train(model, device, train_loader, optimizer, scheduler, epoch, loss_functio
         loss.backward()
         optimizer.step()
 
-        scheduler.step()
-
         pred = y_pred.argmax(dim=1, keepdim=True)
         correct += pred.eq(target.view_as(pred)).sum().item()
         processed += len(data)

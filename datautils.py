@@ -31,7 +31,7 @@ class Cifar10SearchDataset(datasets.CIFAR10):
 
         return image, label
 
-with open("params.yaml") as f:
+with open("modular/params.yaml") as f:
     params = yaml.load(f, Loader=SafeLoader)
 
 

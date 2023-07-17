@@ -66,7 +66,7 @@ def get_transforms(mode):
                             A.Normalize(mean=means, std=stds, always_apply=True),
                             A.PadIfNeeded(min_height=36, min_width=36, border_mode=F.cv2.BORDER_REFLECT),
                             A.RandomCrop(height=32, width=32),
-                            A.HorizontalFlip(),
+                            A.HorizontalFlip(p=0.5),
                             A.CoarseDropout(max_holes=1, max_height=8, max_width=8, min_holes=1, min_height=8, min_width=8, fill_value=means),
                             ToTensorV2(),
                         ])

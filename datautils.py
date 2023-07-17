@@ -1,13 +1,11 @@
 import torch
-import torch.nn as nn
-
-import torchvision
+import torch.optim as optim
 from torchvision import datasets
-
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
-import numpy as np
+import yaml
+from yaml.loader import SafeLoader
 
 SEED = 1
 
@@ -21,29 +19,45 @@ torch.manual_seed(SEED)
 if cuda:
     torch.cuda.manual_seed(SEED)
 
-def load_data(mode):
-    return datasets.CIFAR10(root='./data', train=(mode=="train"), download=True)
+class Cifar10SearchDataset(datasets.CIFAR10):
+    def __init__(self, root="~/data", train=True, download=True, transform=None):
+        super().__init__(root=root, train=train, download=download, transform=transform)
 
-def transform_data(data, transform_object):
-    data.transform = lambda img: transform_object(image=np.array(img))["image"]
-    return data
+    def __getitem__(self, index):
+        image, label = self.data[index], self.targets[index]
+        if self.transform is not None:
+            transformed = self.transform(image=image)
+            image = transformed["image"]
 
-def load_transform_object(mode):
-    if mode=="train":
-        return A.Compose([A.HorizontalFlip(p=0.5), 
-                            A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.2, rotate_limit=45, p=0.5), 
-                            A.CoarseDropout(max_holes=1, max_height=16, max_width=16, min_holes = 1, min_height=16,                                                  min_width=16,                                                      fill_value=[0.4914, 0.4822, 0.4465], mask_fill_value = None, p=0.5), 
-                            A.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)), 
-                            ToTensorV2() ], 
-                            additional_targets={"image": "image"})
+        return image, label
+
+with open("params.yaml") as f:
+    params = yaml.load(f, Loader=SafeLoader)
+
+
+def load_data(mode, transform):
+   return Cifar10SearchDataset(root='./data', train=(mode=="train"),
+                                        download=True, transform=transform)
+
+def get_transforms(mode):
+    means = params["transform_means"]
+    stds = params["transform_stds"]
+
+    if mode == 'train':
+        return A.Compose([
+                            A.Normalize(mean=means, std=stds, always_apply=True),
+                            A.PadIfNeeded(min_height=40, min_width=40, always_apply=True),
+                            A.RandomCrop(height=32, width=32, always_apply=True),
+                            A.HorizontalFlip(),
+                            A.CoarseDropout(max_holes=1, max_height=8, max_width=8, min_holes=1, min_height=8, min_width=8, fill_value=means),
+                            ToTensorV2(),
+                        ])
     else:
-        return A.Compose([A.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-                            ToTensorV2()], 
-                            additional_targets={"image": "image"})
+        return A.Compose([
+                            A.Normalize(mean=means, std=stds, always_apply=True),
+                            ToTensorV2(),
+                        ])
 
 def construct_loader(data):
     dataloader_args = dict(shuffle=True, batch_size=512, num_workers=0, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
     return torch.utils.data.DataLoader(data, **dataloader_args)
-    
-def load_class_names():
-    return ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']

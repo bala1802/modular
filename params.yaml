@@ -3,4 +3,4 @@ transform_stds: [0.2470, 0.2435, 0.2616]
 
 one_cycle_lr_div_factor: 100
 one_cycle_lr_final_div_factor: 100
-one_cycle_lr_anneal_strategy: "linear"
+one_cycle_lr_anneal_strategy: "cos"

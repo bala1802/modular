@@ -54,6 +54,7 @@ def construct_scheduler(optimizer, data_loader, epochs, maximum_learning_rate):
         div_factor=params["one_cycle_lr_div_factor"],
         three_phase=False,
         final_div_factor=params["one_cycle_lr_final_div_factor"],
-        anneal_strategy=params["one_cycle_lr_anneal_strategy"]
+        anneal_strategy=params["one_cycle_lr_anneal_strategy"],
+        verbose=params["one_cycle_lr_verbose"]
     )
     return scheduler

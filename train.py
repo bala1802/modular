@@ -29,5 +29,5 @@ def train(model, device, train_loader, optimizer, scheduler, epoch, loss_functio
         processed += len(data)
 
         pbar.set_description(desc= f'Loss={loss.item()} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}')
-    
-    scheduler.step(sum(losses)/len(losses))
+        scheduler.step()
+    # scheduler.step(sum(losses)/len(losses))

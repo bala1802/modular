@@ -23,11 +23,12 @@ def train(model, device, train_loader, optimizer, scheduler, epoch, loss_functio
 
         loss.backward()
         optimizer.step()
+        scheduler.step(sum(losses)/len(losses))
 
         pred = y_pred.argmax(dim=1, keepdim=True)
         correct += pred.eq(target.view_as(pred)).sum().item()
         processed += len(data)
 
         pbar.set_description(desc= f'Loss={loss.item()} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}')
-        scheduler.step()
+        
     # scheduler.step(sum(losses)/len(losses))

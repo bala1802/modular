@@ -50,7 +50,8 @@ def construct_scheduler(optimizer, data_loader, epochs, maximum_learning_rate):
         max_lr=maximum_learning_rate,
         steps_per_epoch=len(data_loader),
         epochs=epochs,
-        pct_start=params["one_cycle_lr_pct_start"]/epochs,
+        #pct_start=params["one_cycle_lr_pct_start"]/epochs,
+        pct_start=params["one_cycle_lr_pct_start"]
         div_factor=params["one_cycle_lr_div_factor"],
         three_phase=False,
         final_div_factor=params["one_cycle_lr_final_div_factor"],

@@ -5,4 +5,4 @@ one_cycle_lr_div_factor: 100
 one_cycle_lr_final_div_factor: 100
 one_cycle_lr_anneal_strategy: "cos"
 one_cycle_lr_verbose: False
-one_cycle_lr_pct_start: 10
+one_cycle_lr_pct_start: 0.3

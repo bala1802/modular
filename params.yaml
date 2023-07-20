@@ -6,3 +6,6 @@ one_cycle_lr_final_div_factor: 100
 one_cycle_lr_anneal_strategy: "cos"
 one_cycle_lr_verbose: False
 one_cycle_lr_pct_start: 5
+
+optimizer_learning_rate: 0.03
+optimizer_weight_decay: 0.9

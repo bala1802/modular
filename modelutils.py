@@ -22,9 +22,9 @@ if cuda:
 with open("modular/params.yaml") as f:
     params = yaml.load(f, Loader=SafeLoader)
 
-def construct_optimizer(model, learning_rate, weight_decay):
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate, 
-                           weight_decay=weight_decay)
+def construct_optimizer(model):
+    optimizer = optim.Adam(model.parameters(), lr=params["optimizer_learning_rate"], 
+                           weight_decay=params["optimizer_weight_decay"])
     return optimizer
 
 def construct_cross_entropy_loss():

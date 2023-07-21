@@ -19,7 +19,7 @@ class CustomResNet01(nn.Module):
             nn.ReLU()
         )
         '''Max Pool'''
-        self.maxpool1 = nn.MaxPool2d(kernel_size=2, stride=2)
+        self.maxpool1 = nn.MaxPool2d(kernel_size=4, stride=2)
         '''ResBlock-1'''
         self.resBlock1 = nn.Sequential(
             nn.Conv2d(in_channels=128, out_channels=128, kernel_size=3, stride=1, padding=1, bias=False),
@@ -37,7 +37,7 @@ class CustomResNet01(nn.Module):
             nn.ReLU()
         )
         '''Max Pool'''
-        self.maxpool2 = nn.MaxPool2d(kernel_size=2, stride=2)
+        self.maxpool2 = nn.MaxPool2d(kernel_size=4, stride=2)
 
         '''Layer-3'''
         self.layer3 = nn.Sequential(
@@ -46,7 +46,7 @@ class CustomResNet01(nn.Module):
             nn.ReLU()
         )
         '''Max Pool'''
-        self.maxpool3 = nn.MaxPool2d(kernel_size=2, stride=2)
+        self.maxpool3 = nn.MaxPool2d(kernel_size=4, stride=2)
         '''ResBlock-2'''
         self.resBlock2 = nn.Sequential(
             nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1, bias=False),

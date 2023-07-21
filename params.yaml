@@ -8,4 +8,4 @@ one_cycle_lr_verbose: False
 one_cycle_lr_pct_start: 5
 
 optimizer_learning_rate: 0.03
-optimizer_weight_decay: 0.0001sss
+optimizer_weight_decay: 0.0001

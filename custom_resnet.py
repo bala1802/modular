@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 class CustomResNet01(nn.Module):
     def __init__(self):
@@ -81,5 +82,7 @@ class CustomResNet01(nn.Module):
         x = self.avgpool(x)
         x = x.reshape(x.shape[0], -1)
         x = self.fc(x)
+
+        x = F.softmax(x, dim=1)
 
         return x
